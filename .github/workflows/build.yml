@@ -1,0 +1,16 @@
+name: Build Windows EXE
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - setup-python:
+          python-version: '3.14'
+      - run: |
+          pip install PyQt6 python-docx pyinstaller
+          pyinstaller --noconsole --onefile --name "RaportEditor" main.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RaportEditor-Exe
+          path: dist/main.exe
